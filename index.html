@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днем Святого Валентина, София!</title>
+    <style>
+        body {
+            background-color: #ffe6f2;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 45px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: fall linear infinite;
+            z-index: -1;
+        }
+
+        .heart:before,
+        .heart:after {
+            position: absolute;
+            content: "";
+            width: 50px;
+            height: 45px;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 25px;
+            top: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(-45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            font-size: 2em;
+            color: #e44d26;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            animation: fadeIn 2s forwards;
+            text-align: center; /*Центрирование текста*/
+        }
+
+        .wishes {
+            font-size: 1.2em;
+            color: #d32f2f;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-top: 0;
+            animation: fadeIn 2s forwards 1s;
+            text-align: center; /*Центрирование текста*/
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                                transform: translateY(0);
+            }
+        }
+
+        #audio-container {
+            margin-top: 20px;
+            text-align: center; /*Центрирование аудиоплеера*/
+        }
+    </style>
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="message">С Днем Святого Валентина, София!</div>
+    <div class="wishes">София, ты невероятно красивая! Твоя улыбка сияет ярче солнца.</div>
+    <div class="wishes">Ты уникальная и неповторимая.  Я очень рад, что ты есть в моей жизни!</div>
+
+
+    <div id="audio-container">
+        <audio id="valentineMusic" src="your_music.mp3" autoplay loop controls>
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        //Создание сердечек
+        const heartsContainer = document.getElementById('hearts-container');
+        const numHearts = 50; // Количество сердечек
+
+        for (let i = 0; i < numHearts; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw'; // Случайное положение по горизонтали
+            heart.style.animationDelay = Math.random() * 5 + 's'; // Случайная задержка
+            heart.style.animationDuration = Math.random() * 10 + 5 + 's'; // Случайная продолжительность
+            heartsContainer.appendChild(heart);
+        }
+
+
+        //Проверка на автозапуск музыки и обработка исключения
+        const music = document.getElementById('valentineMusic');
+        music.play().catch(error => {
+            console.error("Автоматическое воспроизведение заблокировано браузером:", error);
+            //В случае блокировки, можно отобразить кнопку для запуска музыки пользователем
+            let playButton = document.createElement('button');
+            playButton.textContent = 'Включить музыку';
+            playButton.style.marginTop = '10px';
+            playButton.onclick = function() {
+                music.play();
+                playButton.style.display = 'none'; //Скрываем кнопку после нажатия
+            };
+
+             //Добавляем кнопку в audio-container, а не в body
+            document.getElementById('audio-container').appendChild(playButton);
+        });
+    </script>
+
+</body>
+</html>
